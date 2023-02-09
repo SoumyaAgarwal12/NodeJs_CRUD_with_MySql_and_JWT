@@ -1,4 +1,6 @@
-const { create,getUserByUserId,getUsers, } = require("./queries.js")
+const { create,getUserByUserId,getUsers } = require("./queries.js")
+const jwt = require("jsonwebtoken")
+const secretkey = "__1secretkey1__";
 
 module.exports = {
     createUser : (req, res) => {
@@ -52,4 +54,13 @@ module.exports = {
         });
     });
     },
+    generateToken : (req, res) => {
+      const body = req.body
+      jwt.sign({ body },secretkey,{ expiresIn:'300s' },(err,token)=>{
+        // req.token = token
+        return res.json({
+          token
+        })
+      })
+  },
 }
